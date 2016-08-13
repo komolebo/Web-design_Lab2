@@ -1,0 +1,163 @@
+﻿<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Calculator</title>
+
+    <script>
+        var state = "oper1"
+        var action = "None"
+        var val1 = ""
+        var val2 = ""
+
+        function calculate()
+        {
+            var res = document.getElementById("res")
+
+            switch(action)
+            {
+                case "summary":
+                    res.value = Number(val1) + Number(val2);
+                    break;
+                case "multiply":
+                    res.value = res.value = Number(val1) * Number(val2);
+                    break;
+                case "subtraction":
+                    res.value = Number(val1) - Number(val2);
+                    break;
+                case "division":
+                    res.value = Number(val1) / Number(val2);
+                    break;
+                case "exponentiation":
+                    res.value = Math.pow(Number(val1), Number(val2));
+                    break;
+                case "modulus":
+                    res.value = Number(val1) % Number(val2);
+                    break;
+                case "squareroot":
+                    res.value = Math.sqrt(Number(val1));
+                    break;
+            }
+            val1 = val2 = "";
+        }
+
+        function clean()
+        {
+            document.getElementById("res").value = "";
+            val1 = val2 = "";
+            action = "None";
+            state = "oper1";
+        }
+
+        function append(id)
+        {
+            if(id === "dot")
+            {
+                if (val1.indexOf(".") > -1)
+                    return;
+            }
+            if(state === "oper1")
+            {
+                val1 += document.getElementById(id).value;
+                document.getElementById("res").value = val1;
+            }
+            else
+            {
+                state = "oper2";
+                val2 += document.getElementById(id).value;
+                document.getElementById("res").value = val2;
+            }
+        }
+        function act_do(action_)
+        {
+            if(state === "acting")
+            {
+                action = action_;
+                return;
+            }
+            if(val1 === "" && action_ === "subtraction")
+            {
+                state = "oper1";
+                val1 = '-';
+                document.getElementById("res").value = val1;
+                return;
+            }
+            if(state === "oper1")
+            {
+                if (val1 === '-' || val1 === '.')
+                    return;
+                action = action_;
+                state = "acting";
+                document.getElementById("res").value = "";
+            }
+            if (state === "oper2" && val2 !== "")
+                calculate();
+        }
+        function change_state()
+        {
+            if(state === "oper1")
+            {
+                var nmb = -Number(val1);
+                val1 = nmb.toString();
+                document.getElementById("res").value = val1;
+            }
+            if(state === "oper2")
+            {
+                var nmb = -Number(val2);
+                val2 = nmb.toString();
+                document.getElementById("res").value = val2;
+            }
+        }
+        function get_square_root()
+        {
+            action = "squareroot";
+            calculate();
+        }
+
+    </script>
+    <link type="text/css" media="all" rel="stylesheet" href="css/main.css"/>
+</head>
+<body bgcolor="black">
+
+<form id="frm">
+    <p align="center" id="prog_name">Calculator</p>
+    <input type="text" id="res" readonly="readonly" value="Result"/><br/><br/>
+    <table id="tbl">
+        <tr>
+            <td><input type="button" id="clr" value="Clear" onclick="clean()"/></td>
+            <td><input type="button" id="chng" value="+/-" onclick="change_state()"/></td>
+            <td><input type="button" value="^0.5" id="sqrt" onclick="get_square_root()"/></td>
+            <td><input type="button" value="+" id="plus" onclick="act_do('summary')"/></td>
+        </tr>
+        <tr>
+            <td><input type="button" value="1" id="b1" onclick="append('b1')"/></td>
+            <td><input type="button" value="2" id="b2" onclick="append('b2')"/></td>
+            <td><input type="button" value="3" id="b3" onclick="append('b3')"/></td>
+            <td><input type="button" value="-" id="minus" onclick="act_do('subtraction')"/></td>
+        </tr>
+        <tr>
+            <td><input type="button" value="4" id="b4" onclick="append('b4')"/></td>
+            <td><input type="button" value="5" id="b5" onclick="append('b5')"/></td>
+            <td><input type="button" value="6" id="b6" onclick="append('b6')"/></td>
+            <td><input type="button" value="*" id="imul" onclick="act_do('multiply')"></td>
+        </tr>
+        <tr>
+            <td><input type="button" value="7" id="b7" onclick="append('b7')"/></td>
+            <td><input type="button" value="8" id="b8" onclick="append('b8')"/></td>
+            <td><input type="button" value="9" id="b9" onclick="append('b9')"/></td>
+            <td><input type="button" value="/" id="div" onclick="act_do('division')"/></td>
+        </tr>
+        <tr>
+            <td><input type="button" value="0" id="b0" onclick="append('b0')"></td>
+            <td><input type="button" value="." id="dot" onclick="append('dot')"></td>
+            <td><input type="button" value="%" id="mlt" onclick="act_do('modulus')"></td>
+            <td><input type="button" value="^" id="exp" onclick="act_do('exponentiation')"></td>
+        </tr>
+    </table>
+
+    <input id="calc" type="button" onclick="calculate()" value="OK"/>
+</form>
+<font size="4" id="company">Komarnytskyi & Savchenko inc.</font>
+
+</body>
+</html>

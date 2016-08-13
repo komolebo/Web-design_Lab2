@@ -1,0 +1,47 @@
+#frm
+{
+    padding: 10px 30px;
+    background: #2F4F4F;
+    border: solid black thin;
+    margin: 50px 500px;
+}
+
+input
+{
+    width: 60px;
+    height: 60px;
+}
+
+#plus, #minus, #imul, #div, #exp
+{
+    margin: 0 20px;
+    background-color: #E0FFFF;
+    color: blue;
+}
+
+#exp, #mlt, #exp, #sqrt, #chng
+{
+    background-color: #E0FFFF;
+    color: blue;
+}
+
+#calc
+{
+    margin: 30px 110px 0px;
+    height: 50px;
+    color: blue;
+    background-color: #E0FFFF;
+}
+
+#res
+{
+    width: 270px;
+    height: 40px;
+}
+
+#company
+{
+    color: #008B8B;
+    float: right;
+    font-family: 'Monotype Corsiva';
+}
